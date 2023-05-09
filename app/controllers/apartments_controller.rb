@@ -20,8 +20,25 @@ class ApartmentsController < ApplicationController
             render json: apartment.errors, status: 422
         end
     end
+    def update
+        apartment = Apartment.find(params[:id])
+        apartment.update(apartment_params)
+        if apartment.valid?
+            render json: apartment
+        else
+            render json: apartment.errors, status: 422
+        end
+    end
+
+    def destroy
+        apartment = Apartment.find(params[:id])
+        apartment.destroy
+        render json: apartment
+
+    end
     private
     def apartment_params
         params.require(:apartment).permit(:street, :unit, :city, :state, :square_footage, :pets, :price, :bathrooms, :bedrooms, :image, :user_id)
     end
+    
 end
